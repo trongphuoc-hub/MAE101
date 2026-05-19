@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Đề Thi Trắc Nghiệm Đạo Hàm - DuyMT</title>
+
+  <!-- MathJax -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    body{
+      font-family: Arial, sans-serif;
+      background:#f4f7fb;
+      margin:0;
+      padding:20px;
+      line-height:1.6;
+    }
+
+    h1{
+      text-align:center;
+      color:#004b8d;
+    }
+
+    .section-title{
+      margin-top:40px;
+      color:#b22222;
+      border-left:8px solid #004b8d;
+      padding-left:10px;
+    }
+
+    .question-box{
+      background:white;
+      padding:20px;
+      margin:20px 0;
+      border-radius:12px;
+      box-shadow:0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .question{
+      font-weight:bold;
+      margin-bottom:15px;
+    }
+
+    .option{
+      display:block;
+      margin:10px 0;
+      padding:12px;
+      border-radius:8px;
+      border:2px solid #ddd;
+      cursor:pointer;
+      transition:0.3s;
+      background:#fafafa;
+    }
+
+    .option:hover{
+      background:#eef5ff;
+    }
+
+    .correct{
+      background:#c8f7c5 !important;
+      border-color:green !important;
+      color:#065f0a;
+      font-weight:bold;
+    }
+
+    .wrong{
+      background:#ffd4d4 !important;
+      border-color:red !important;
+      color:#8b0000;
+      font-weight:bold;
+    }
+
+    .explanation{
+      margin-top:15px;
+      padding:15px;
+      background:#fff8dc;
+      border-left:6px solid orange;
+      border-radius:8px;
+      display:none;
+    }
+
+    .tip{
+      margin-top:10px;
+      background:#e8f5ff;
+      padding:10px;
+      border-left:5px solid #0077cc;
+      border-radius:6px;
+    }
+
+    button{
+      padding:12px 20px;
+      background:#004b8d;
+      color:white;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:16px;
+    }
+
+    button:hover{
+      background:#00335f;
+    }
+
+    #score{
+      position:fixed;
+      top:10px;
+      right:10px;
+      background:#004b8d;
+      color:white;
+      padding:12px 18px;
+      border-radius:10px;
+      font-weight:bold;
+      z-index:1000;
+    }
+
+    .download-box{
+      text-align:center;
+      margin-top:40px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="score">Điểm: 0 / 20</div>
+
+<h1>ĐỀ THI TRẮC NGHIỆM ĐẠO HÀM – PHONG CÁCH DUYMT</h1>
+
+<div id="quiz-container"></div>
+
+<div class="download-box">
+  <button onclick="downloadHTML()">Tải File HTML</button>
+</div>
+
+<script>
+
+const questions = [
+
+/* =========================================================
+   5 CÂU LÝ THUYẾT
+========================================================= */
+
+{
+  type:"Lý thuyết",
+  difficulty:"Dễ",
+  question:"1. Đạo hàm biểu diễn điều gì?",
+  options:[
+    "Diện tích hình phẳng",
+    "Tốc độ thay đổi",
+    "Tổng giá trị",
+    "Giá trị trung bình"
+  ],
+  answer:1,
+  explanation:"Đạo hàm mô tả tốc độ thay đổi tức thời của hàm số.",
+  tip:"Hễ thấy 'thay đổi tức thời' ⇒ nghĩ ngay đến đạo hàm."
+},
+
+{
+  type:"Lý thuyết",
+  difficulty:"Dễ",
+  question:"2. Đạo hàm của hằng số bằng bao nhiêu?",
+  options:[
+    "$1$",
+    "$x$",
+    "$0$",
+    "Không xác định"
+  ],
+  answer:2,
+  explanation:"Hằng số không thay đổi nên tốc độ thay đổi bằng 0.",
+  tip:"Không đổi ⇒ đạo hàm bằng 0."
+},
+
+{
+  type:"Lý thuyết",
+  difficulty:"Dễ",
+  question:"3. Nguyên hàm của $f(x)$ là gì?",
+  options:[
+    "Hàm có đạo hàm bằng $f(x)$",
+    "Đạo hàm cấp hai",
+    "Giới hạn của hàm",
+    "Tích phân xác định"
+  ],
+  answer:0,
+  explanation:"Nguyên hàm là hàm số mà đạo hàm của nó bằng hàm đã cho.",
+  tip:"Nguyên hàm = đi ngược đạo hàm."
+},
+
+{
+  type:"Lý thuyết",
+  difficulty:"Trung bình",
+  question:"4. Vì sao nguyên hàm có thêm $+C$?",
+  options:[
+    "Để đẹp hơn",
+    "Vì đạo hàm làm mất hằng số",
+    "Do quy ước",
+    "Không có lý do"
+  ],
+  answer:1,
+  explanation:"Khi lấy đạo hàm, các hằng số biến mất nên khi tìm nguyên hàm phải cộng thêm $C$.",
+  tip:"Đạo hàm xóa hằng số ⇒ nguyên hàm thêm C."
+},
+
+{
+  type:"Lý thuyết",
+  difficulty:"Trung bình",
+  question:"5. Ý nghĩa triết học của đạo hàm theo DuyMT là gì?",
+  options:[
+    "Đạo hàm lưu giữ mọi quá khứ",
+    "Đạo hàm là phép chiếu mất thông tin",
+    "Đạo hàm là phép cộng",
+    "Đạo hàm không liên quan đời sống"
+  ],
+  answer:1,
+  explanation:"Đạo hàm giữ xu hướng thay đổi nhưng làm mất gốc tích ban đầu.",
+  tip:"Nhớ câu thần chú: đạo hàm xóa hằng số."
+},
+
+/* =========================================================
+   5 CÂU DỄ
+========================================================= */
+
+{
+  type:"Bài tập",
+  difficulty:"Dễ",
+  question:"6. Tính đạo hàm của $f(x)=x^2$",
+  options:[
+    "$x$",
+    "$2x$",
+    "$x^2$",
+    "$2$"
+  ],
+  answer:1,
+  explanation:"Áp dụng quy tắc lũy thừa: $(x^n)' = nx^{n-1}$",
+  tip:"Kéo số mũ xuống trước."
+},
+
+{
+  type:"Bài tập",
+  difficulty:"Dễ",
+  question:"7. Tính đạo hàm của $f(x)=3x^3$",
+  options:[
+    "$9x^2$",
+    "$3x^2$",
+    "$x^2$",
+    "$6x$"
+  ],
+  answer:0,
+  explanation:"$(3x^3)' = 3·3x^2 = 9x^2$",
+  tip:"Nhân hệ số với số mũ."
+},
+
+{
+  type:"Bài tập",
+  difficulty:"Dễ",
+  question:"8. Tính đạo hàm của $f(x)=5$",
+  options:[
+    "$5$",
+    "$1$",
+    "$0$",
+    "$x$"
+  ],
+  answer:2,
+  explanation:"Đạo hàm của hằng số bằng 0.",
+  tip:"Hằng số không đổi."
+},
+
+{
+  type:"Bài tập",
+  difficulty:"Dễ",
+  question:"9. Tính đạo hàm của $f(x)=4x$",
+  options:[
+    "$4$",
+    "$x$",
+    "$0$",
+    "$8x$"
+  ],
+  answer:0,
+  explanation:"$(ax)'=a$",
+  tip:"Đạo hàm hàm bậc nhất là hệ số."
+},
+
+{
+  type:"Bài tập",
+  difficulty:"Dễ",
+  question:"10. Nguyên hàm của $2x$ là:",
+  options:[
+    "$x^2+C$",
+    "$2x+C$",
+    "$x+C$",
+    "$x^3+C$"
+  ],
+  answer:0,
+  explanation:"Vì $(x^2)'=2x$",
+  tip:"Nguyên hàm là đi ngược lại đạo hàm."
+},
+
+/* =========================================================
+   5 CÂU TRUNG BÌNH
+========================================================= */
+
+{
+  type:"Bài tập",
+  difficulty:"Trung bình",
+  question:"11. Tính đạo hàm của $f(x)=x^3+2x$",
+  options:[
+    "$3x^2+2$",
+    "$x^2+2$",
+    "$3x+2$",
+    "$2x+2$"
+  ],
+  answer:0,
+  explanation:"$(x^3)'=3x^2$ và $(2x)'=2$",
+  tip:"Đạo hàm từng hạng tử."
+},
+
+{
+  type:"Bài tập",
+  difficulty:"Trung bình",
+  question:"12. Tính đạo hàm của $f(x)=\\sin x$",
+  options:[
+    "$\\cos x$",
+    "$-\\sin x$",
+    "$\\tan x$",
+    "$-\\cos x$"
+  ],
+  answer:0,
+  explanation:"Công thức cơ bản: $(\\sin x)'=\\cos x$",
+  tip:"Sin → Cos."
+},
+
+{
+  type:"Bài tập",
+  difficulty:"Trung bình",
+  question:"13. Tính đạo hàm của $f(x)=e^x$",
+  options:[
+    "$xe^{x-1}$",
+    "$e^x$",
+    "$1$",
+    "$x^e$"
+  ],
+  answer:1,
+  explanation:"Hàm mũ cơ số e có đạo hàm chính nó.",
+  tip:"$e^x$ rất đặc biệt: đạo hàm không đổi."
+},
+
+{
+  type:"Bài tập",
+  difficulty:"Trung bình",
+  question:"14. Nguyên hàm của $3x^2$ là:",
+  options:[
+    "$x^3+C$",
+    "$3x+C$",
+    "$x^2+C$",
+    "$6x+C$"
+  ],
+  answer:0,
+  explanation:"Vì $(x^3)'=3x^2$",
+  tip:"Tăng số mũ lên 1 rồi chia."
+},
+
+{
+  type:"Bài tập",
+  difficulty:"Trung bình",
+  question:"15. Đạo hàm của $\\cos x$ là:",
+  options:[
+    "$\\sin x$",
+    "$-\\sin x$",
+    "$\\tan x$",
+    "$-\\cos x$"
+  ],
+  answer:1,
+  explanation:"$(\\cos x)'=-\\sin x$",
+  tip:"Cos → -Sin."
+},
+
+/* =========================================================
+   5 CÂU KHÓ
+========================================================= */
+
+{
+  type:"Bài tập",
+  difficulty:"Khó",
+  question:"16. Tính đạo hàm của $f(x)=x^2\\sin x$",
+  options:[
+    "$2x\\sin x+x^2\\cos x$",
+    "$2x\\cos x$",
+    "$x^2\\cos x$",
+    "$2x\\sin x$"
+  ],
+  answer:0,
+  explanation:"Dùng quy tắc tích: $(uv)'=u'v+uv'$",
+  tip:"Tích hai hàm ⇒ dùng đạo hàm tích."
+},
+
+{
+  type:"Bài tập",
+  difficulty:"Khó",
+  question:"17. Tính đạo hàm của $f(x)=\\ln x$",
+  options:[
+    "$x$",
+    "$\\frac{1}{x}$",
+    "$e^x$",
+    "$\\frac{1}{x^2}$"
+  ],
+  answer:1,
+  explanation:"$(\\ln x)'=1/x$",
+  tip:"Log tự nhiên ⇒ nghịch đảo."
+},
+
+{
+  type:"Bài tập",
+  difficulty:"Khó",
+  question:"18. Tính đạo hàm của $f(x)=\\frac{1}{x}$",
+  options:[
+    "$\\frac{1}{x^2}$",
+    "$-\\frac{1}{x^2}$",
+    "$x$",
+    "$-x$"
+  ],
+  answer:1,
+  explanation:"Viết thành $x^{-1}$ rồi áp dụng quy tắc lũy thừa.",
+  tip:"Mẫu số thường đổi thành số mũ âm."
+},
+
+{
+  type:"Bài tập",
+  difficulty:"Khó",
+  question:"19. Tính nguyên hàm của $\\cos x$",
+  options:[
+    "$-\\sin x + C$",
+    "$\\sin x + C$",
+    "$\\tan x + C$",
+    "$-\\cos x + C$"
+  ],
+  answer:1,
+  explanation:"Vì $(\\sin x)'=\\cos x$",
+  tip:"Nguyên hàm đảo chiều công thức đạo hàm."
+},
+
+{
+  type:"Bài tập",
+  difficulty:"Khó",
+  question:"20. Nếu $f'(x)=0$ thì $f(x)$ là:",
+  options:[
+    "Hàm bậc nhất",
+    "Hàm hằng",
+    "Hàm số mũ",
+    "Hàm lượng giác"
+  ],
+  answer:1,
+  explanation:"Nếu tốc độ thay đổi luôn bằng 0 thì hàm không đổi.",
+  tip:"Đạo hàm bằng 0 ⇒ đồ thị nằm ngang."
+}
+
+];
+
+let score = 0;
+
+const container = document.getElementById("quiz-container");
+
+questions.forEach((q, index)=>{
+
+  const box = document.createElement("div");
+  box.className = "question-box";
+
+  box.innerHTML = `
+    <div class="question">
+      ${q.question}
+      <br>
+      <small>
+        <b>Loại:</b> ${q.type} |
+        <b>Mức độ:</b> ${q.difficulty}
+      </small>
+    </div>
+  `;
+
+  q.options.forEach((opt, i)=>{
+
+    const btn = document.createElement("div");
+    btn.className = "option";
+    btn.innerHTML = opt;
+
+    btn.onclick = ()=>{
+
+      if(box.dataset.answered) return;
+
+      box.dataset.answered = true;
+
+      const options = box.querySelectorAll(".option");
+
+      options.forEach((o, idx)=>{
+
+        if(idx === q.answer){
+          o.classList.add("correct");
+        }
+
+      });
+
+      if(i === q.answer){
+        btn.classList.add("correct");
+        score++;
+      }else{
+        btn.classList.add("wrong");
+      }
+
+      document.getElementById("score").innerHTML =
+        `Điểm: ${score} / ${questions.length}`;
+
+      explanation.style.display = "block";
+
+      MathJax.typesetPromise();
+    };
+
+    box.appendChild(btn);
+
+  });
+
+  const explanation = document.createElement("div");
+  explanation.className = "explanation";
+
+  explanation.innerHTML = `
+    <b>Đáp án đúng:</b> ${q.options[q.answer]}
+    <br><br>
+    <b>Giải thích:</b> ${q.explanation}
+    <div class="tip">
+      <b>Mẹo làm nhanh:</b> ${q.tip}
+    </div>
+  `;
+
+  box.appendChild(explanation);
+
+  container.appendChild(box);
+
+});
+
+function downloadHTML(){
+
+  const htmlContent = document.documentElement.outerHTML;
+
+  const blob = new Blob([htmlContent], {
+    type:"text/html"
+  });
+
+  const a = document.createElement("a");
+
+  a.href = URL.createObjectURL(blob);
+
+  a.download = "de-thi-dao-ham-duymt.html";
+
+  a.click();
+}
+
+</script>
+
+</body>
+</html>
